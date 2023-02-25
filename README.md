@@ -1,11 +1,16 @@
-# PlugGpgVerify
+# plug_gpg_verify
 
-**TODO: Add description**
+A plug that can be used to verify the ownership of public gpg keys.
+
+## TLDR;
+
+It simply encrypts a random phrase with the users public key and sends that to the user.
+The user then is required to decrypt the phrase and send it back which can then be verified.
+
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `plug_gpg_verify` to your list of dependencies in `mix.exs`:
+Add `plug_gpg_verify` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
@@ -15,7 +20,13 @@ def deps do
 end
 ```
 
+This plug makes use of a gpg library that requires:
+* the `rust` toolchain to be installed
+* gpg to be installed and configured properly
+
+## Usage
+
+
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at <https://hexdocs.pm/plug_gpg_verify>.
-
