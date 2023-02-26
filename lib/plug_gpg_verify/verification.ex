@@ -24,6 +24,8 @@ defmodule PlugGPGVerify.Verification do
     end
   end
 
+  def generate_challenge(conn, _adapter), do: send_resp(conn, 406, "Invalid Request")
+
   defp create_and_save_challenge(conn, %{email: email} = user, adapter) do
     dice = Diceware.generate()
 

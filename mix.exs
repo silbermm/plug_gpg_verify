@@ -28,7 +28,8 @@ defmodule PlugGpgVerify.MixProject do
       {:diceware, "~> 0.2.8"},
       {:req, "~> 0.3"},
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
-      {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:mox, "~> 1.0.2", only: [:test]}
     ]
   end
 
