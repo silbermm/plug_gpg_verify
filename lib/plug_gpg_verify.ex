@@ -205,7 +205,6 @@ defmodule PlugGPGVerify do
   """
   @callback gpg_verified(Conn.t(), user()) :: Conn.t()
 
-  
   defmacro __using__(_) do
     quote location: :keep do
       require unquote(__MODULE__)

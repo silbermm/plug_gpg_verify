@@ -14,6 +14,7 @@ defmodule PlugGPGVerify.Verification do
 
   def generate_challenge(%{params: %{"email" => email}} = conn, adapter) do
     user = apply(adapter, :find_user_by_email, [email])
+
     case user do
       {:ok, user} ->
         create_and_save_challenge(conn, user, adapter)
@@ -25,6 +26,7 @@ defmodule PlugGPGVerify.Verification do
 
   defp create_and_save_challenge(conn, %{email: email} = user, adapter) do
     dice = Diceware.generate()
+
     case GPG.encrypt(email, dice.phrase) do
       {:ok, challenge} ->
         apply(adapter, :challenge_created, [user, challenge, dice.phrase])
@@ -39,7 +41,10 @@ defmodule PlugGPGVerify.Verification do
     end
   end
 
-  def validate_challenge(%{params: %{"user_id" => id, "challenge_response" => challenge_resp}} = conn, adapter) do
+  def validate_challenge(
+        %{params: %{"user_id" => id, "challenge_response" => challenge_resp}} = conn,
+        adapter
+      ) do
     case apply(adapter, :find_user_by_id, [id]) do
       {:ok, user} ->
         if is_valid_challenge_response?(user, challenge_resp) do
