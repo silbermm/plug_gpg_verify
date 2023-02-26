@@ -39,13 +39,13 @@ defmodule PlugGPGVerify.Verification do
     end
   end
 
-  def validate_challenge(%{params: %{"id" => id, "challenge_response" => challenge_resp}} = conn, adapter) do
+  def validate_challenge(%{params: %{"user_id" => id, "challenge_response" => challenge_resp}} = conn, adapter) do
     case apply(adapter, :find_user_by_id, [id]) do
       {:ok, user} ->
         if is_valid_challenge_response?(user, challenge_resp) do
           apply(adapter, :gpg_verified, [conn, user])
         else
-          send_resp(conn, 401, "YOU WRONG")
+          send_resp(conn, 401, "")
         end
 
       {:error, _reason} ->
@@ -54,7 +54,7 @@ defmodule PlugGPGVerify.Verification do
   end
 
   def validate_challenge(%{params: _params} = conn, _module) do
-    send_resp(conn, 406, "Invalid Request")
+    send_resp(conn, 406, "Invalid Body")
   end
 
   defp is_valid_challenge_response?(user, challenge_resp) do

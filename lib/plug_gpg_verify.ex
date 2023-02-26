@@ -36,11 +36,11 @@ defmodule PlugGPGVerify do
     end
 
     @impl true
-    def challenge_created(user, challenge) do
+    def challenge_created(user, _challenge, plain_text_challenge) do
       changeset = User.changeset(
         %User{id: user.id, email: user.email}, 
         %{
-          challenge: challenge,
+          challenge: plain_text_challenge,
           challenge_expiration: DateTime.add(DateTime.utc_now(), 1, :hour)
         }
       )
@@ -68,13 +68,13 @@ defmodule PlugGPGVerify do
   end
   ```
 
-  Your application accepts two new requests at `/verify`: 
+  Your application accepts two new requests at `/verify` (or whatever route you defined): 
   * GET /verify?email="user@email.com"
   * POST /verify
 
   ### GET /verify
   If a user is found (via the `c:find_user_by_email/1` callback),
-  AND they have a public_key, a new challenge is generated and encrypted.
+  AND they have a public_key configured on the system, a new challenge is generated and encrypted.
 
   A 201 is sent back with a JSON response of:
   ```json
