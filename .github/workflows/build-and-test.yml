@@ -28,6 +28,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install libgpgme-dev
 
+      - name: Configure GPG Key
+        run: |
+          gpgme-config --prefix
+          gpg --batch --passphrase '' --quick-gen-key test@test.com default default
+          #echo -n "$GPG_SIGNING_KEY" | base64 --decode | gpg --import
+
       - name: Setup Elixir Project
         uses: ./.github/actions/elixir-setup
         with:
