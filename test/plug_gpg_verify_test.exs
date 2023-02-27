@@ -35,4 +35,17 @@ defmodule PlugGPGVerifyTest do
     assert conn.state == :sent
     assert conn.status == 406
   end
+
+  test "GET email not found" do
+    expect(PlugGPGVerify.TestAdapter, :find_user_by_email, fn _email ->
+      {:error, :not_found}
+    end)
+
+    conn = conn(:get, "/validate", %{"email" => "noexist@test.com"})
+    opts = PlugGPGVerify.init(adapter: PlugGPGVerify.TestAdapter)
+    conn = PlugGPGVerify.call(conn, opts)
+
+    assert conn.state == :sent
+    assert conn.status == 406
+  end 
 end

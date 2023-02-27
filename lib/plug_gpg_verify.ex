@@ -117,21 +117,6 @@ defmodule PlugGPGVerify do
 
   @impl Plug
   def call(%{method: method} = conn, module) do
-    # Determine if this is the GET method of the request or the POST
-
-    # IF GET
-    # Find the public key from the fingerprint of the request
-    #    - the public key may be in the DB
-    #    - the public key may just be on the filesystem
-    # Encrypt a challenge with the public key and store the challenge
-    # Send a response with the encrypted challenge
-
-    # IF POST
-    # Validaate the signnature of the body
-    # Check that the unencrypted value matches the challenge
-    # Generate a valid token
-    # Respond with token
-    # Optionally store token in a sessions table
     case validate_method(method) do
       :invalid -> Verification.invalid_method(conn)
       :get -> Verification.generate_challenge(conn, module)
