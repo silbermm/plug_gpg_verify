@@ -2,10 +2,11 @@ defmodule PlugGPGVerify.Verification do
   @moduledoc false
 
   import Plug.Conn
+  alias Plug.Conn
 
   @doc "Send 406 Invalid Request"
   @spec invalid_method(Conn.t()) :: Conn.t()
-  def invalid_method(conn), do: send_resp(conn, 406, "Invalid Request")
+  def invalid_method(conn), do: send_resp(conn, 405, "Invalid Method")
 
   @doc "Generates a challenge and sends the JSON response"
   @spec generate_challenge(Conn.t(), module()) :: Conn.t()
