@@ -47,5 +47,5 @@ defmodule PlugGPGVerifyTest do
 
     assert conn.state == :sent
     assert conn.status == 406
-  end 
+  end
 end
