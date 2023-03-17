@@ -16,7 +16,7 @@ defmodule PlugGPGVerifyTest do
       {:ok, %{id: 1234, email: email}}
     end)
 
-    expect(PlugGPGVerify.TestAdapter, :challenge_created, fn _user, _challenge, _plain_text ->
+    expect(PlugGPGVerify.TestAdapter, :challenge_created, fn _user, _challenge ->
       :ok
     end)
 
