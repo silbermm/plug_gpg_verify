@@ -1,8 +1,8 @@
 defmodule PlugGPGVerify do
   @moduledoc """
-  plug_gpg_verify does the work of verifing a public key by using it to encrypt a randomly
-  generated challenge, sending that encrypted challenge to the user and expecting the response
-  from the user to match.
+  plug_gpg_verify does the work of verifing a public key by generating a random 
+  challenge, sending that challenge to the user and expecting the response, having
+  the client sign the challenge and send it back, then verifying the signature.
 
   This makes a couple of assumptions:
   1. GPG is setup and working correctly on your system.
@@ -36,7 +36,7 @@ defmodule PlugGPGVerify do
     end
 
     @impl true
-    def challenge_created(user, _challenge, plain_text_challenge) do
+    def challenge_created(user, challenge) do
       changeset = User.changeset(
         %User{id: user.id, email: user.email}, 
         %{
@@ -175,9 +175,8 @@ defmodule PlugGPGVerify do
   `c:find_user_by_id/1` is called during the POST request. 
 
   It is also recommended to store an expiration date with the challenge.
-
   """
-  @callback challenge_created(user(), challenge(), String.t()) :: :ok | {:error, binary()}
+  @callback challenge_created(user(), challenge()) :: :ok | {:error, binary()}
 
   @doc """
   Called when the GPG public key has been verified because the challenge matches.

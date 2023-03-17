@@ -23,7 +23,7 @@ defmodule PlugGpgVerify.MixProject do
   defp deps do
     [
       {:ex_doc, "~> 0.29.1"},
-      {:gpgmex, "~> 0.0.9"},
+      {:gpgmex, "~> 0.0.10"},
       {:plug, "~> 1.14"},
       {:diceware, "~> 0.2.8"},
       {:req, "~> 0.3"},

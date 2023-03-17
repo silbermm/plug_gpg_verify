@@ -27,21 +27,15 @@ defmodule PlugGPGVerify.Verification do
 
   def generate_challenge(conn, _adapter), do: send_resp(conn, 406, "Invalid Request")
 
-  defp create_and_save_challenge(conn, %{email: email} = user, adapter) do
+  defp create_and_save_challenge(conn, user, adapter) do
     dice = Diceware.generate()
 
-    case GPG.encrypt(email, dice.phrase) do
-      {:ok, challenge} ->
-        apply(adapter, :challenge_created, [user, challenge, dice.phrase])
-        json = Jason.encode!(%{challenge: challenge, user_id: user.id})
+    apply(adapter, :challenge_created, [user, dice.phrase])
+    json = Jason.encode!(%{challenge: dice.phrase, user_id: user.id})
 
-        conn
-        |> put_resp_content_type("application/json")
-        |> send_resp(200, json)
-
-      {:error, _} ->
-        send_resp(conn, 500, "Server Error")
-    end
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(200, json)
   end
 
   def validate_challenge(
@@ -66,6 +60,12 @@ defmodule PlugGPGVerify.Verification do
   end
 
   defp is_valid_challenge_response?(user, challenge_resp) do
-    user.challenge == challenge_resp
+    case GPG.verify_clear(challenge_resp) do
+      {:ok, data} ->
+        user.challenge == String.replace(data, "\n", "")
+
+      {:error, _err} ->
+        false
+    end
   end
 end

@@ -14,7 +14,7 @@ defmodule Mix.Tasks.GpgVerify do
       %Req.Response{status: 200, body: body} ->
         challenge = Map.get(body, "challenge")
         user_id = Map.get(body, "user_id")
-        response = decrypt_and_send(user_id, challenge, url)
+        response = sign_and_send(user_id, challenge, url)
         IO.puts(inspect(response.body))
 
       _ ->
@@ -22,8 +22,8 @@ defmodule Mix.Tasks.GpgVerify do
     end
   end
 
-  defp decrypt_and_send(user_id, challenge, url) do
-    case GPG.decrypt(challenge) do
+  defp sign_and_send(user_id, challenge, url) do
+    case GPG.clear_sign(challenge) do
       {:ok, data} ->
         Req.post!("#{url}", json: %{challenge_response: data, user_id: user_id})
 
