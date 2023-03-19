@@ -6,6 +6,7 @@ defmodule PlugGPGVerify do
 
   This makes a couple of assumptions:
   1. GPG is setup and working correctly on your system.
+      -  this uses [gpgmex](https://hexdocs.pm/gpgmex/GPG.html) which requires the rust toolchain installed and working
   2. The public key we are validating has already been imported
 
   What this is **NOT**
@@ -82,8 +83,6 @@ defmodule PlugGPGVerify do
     challenge: string,
     user_id: string
   }
-
-  where challenge is the encrypted challenge
   ```
 
   ### POST /verify
@@ -94,15 +93,15 @@ defmodule PlugGPGVerify do
     user_id: string
   }
   ```
-  where challenge_response is the decrypted challenge
+  where challenge_response is the signed challenge
 
   ## Flow Diagram
 
   ```mermaid
   sequenceDiagram
-    Client->>Server: GET /verify=example@email.com
-    Server->>Client: {user_id: 1234, challenge: "-----BEGIN PGP MESSAGE----- ..."}
-    Client->>Server: POST /verify {user_id: 1234, challenge_response: "decrypted challenge str"}
+    Client->>Server: GET /verify?email=example@email.com
+    Server->>Client: {user_id: 1234, challenge: "challenge string"}
+    Client->>Server: POST /verify {user_id: 1234, challenge_response: "-----BEGIN PGP MESSAGE----- ..."}
     Server->>Client: 200
   ```
   """
@@ -181,7 +180,7 @@ defmodule PlugGPGVerify do
   @doc """
   Called when the GPG public key has been verified because the challenge matches.
 
-  This is the final step in the happy path of verification.user()
+  This is the final step in the happy path of verification.
 
   This will return the `Plug.Conn` and it's up to the implementation to handle next steps.
 

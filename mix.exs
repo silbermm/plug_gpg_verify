@@ -50,7 +50,7 @@ defmodule PlugGpgVerify.MixProject do
 
   defp docs do
     [
-      main: "PlugGpgVerify",
+      main: "PlugGPGVerify",
       api_reference: false,
       extras: [
         "README.md": [filename: "readme", title: "Readme"],
