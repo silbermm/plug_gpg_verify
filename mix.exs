@@ -8,15 +8,30 @@ defmodule PlugGpgVerify.MixProject do
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      docs: [
-        before_closing_body_tag: &before_closing_body_tag/1
-      ]
+      package: package(),
+      docs: docs()
     ]
   end
 
   def application do
     [
       extra_applications: [:logger]
+    ]
+  end
+
+  defp package() do
+    [
+      maintainers: ["Matt Silbernagel"],
+      description: "A simple plug for verifing a public_key",
+      links: %{:GitHub => "https://github.com/silbermm/plug_gpg_verify"},
+      licenses: ["GPL-3.0-or-later"],
+      files: [
+        "lib",
+        "mix.exs",
+        "README.md",
+        "CHANGELOG.md",
+        "COPYING*"
+      ]
     ]
   end
 
@@ -30,6 +45,20 @@ defmodule PlugGpgVerify.MixProject do
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:mox, "~> 1.0.2", only: [:test]}
+    ]
+  end
+
+  defp docs do
+    [
+      main: "PlugGpgVerify",
+      api_reference: false,
+      extras: [
+        "README.md": [filename: "readme", title: "Readme"],
+        "CHANGELOG.md": [filename: "changelog", title: "Changelog"],
+        COPYING: [filename: "COPYING", title: "License"]
+      ],
+      authors: ["Matt Silbernagel"],
+      before_closing_body_tag: &before_closing_body_tag/1
     ]
   end
 
