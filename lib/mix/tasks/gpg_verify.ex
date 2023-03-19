@@ -1,14 +1,29 @@
 defmodule Mix.Tasks.GpgVerify do
   @moduledoc """
-  The GPGVerify mix task: `mix help gpg_verify`
+  A task to help check if plug_gpg_verify is setup correctly.
 
+  ## Usage
+  `mix gpg_verify <email>`
 
+  ### Options
+    * --url <url> defaults to http://localhost:4000/verify
   """
 
-  def run(_argv) do
+  def run(argv) do
     {:ok, _started} = Application.ensure_all_started(:req)
-    url = "http://localhost:4000/login"
-    email = "matt@silbernagel.dev"
+
+    case OptionParser.parse(argv, strict: [url: :string]) do
+      {opts, [email], _} ->
+        url = Keyword.get(opts, :url, "http://localhost:4000/verify")
+        do_send(url, email)
+
+      {_opts, [], _} ->
+        IO.puts("Email is required")
+    end
+  end
+
+  defp do_send(url, email) do
+    IO.puts("Checking #{url} and #{email} for validity")
 
     case Req.get!("#{url}?email=#{email}") do
       %Req.Response{status: 200, body: body} ->
