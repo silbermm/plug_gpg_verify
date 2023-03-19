@@ -4,8 +4,8 @@ A plug that can be used to verify the ownership of public gpg keys.
 
 ## TLDR;
 
-It simply encrypts a random phrase with the users public key and sends that to the user.
-The user then is required to decrypt the phrase and send it back which can then be verified.
+It simply generates a random phrase and sends that to the user.
+The user then is required to sign the phrase and send it back which can then be verified.
 
 
 ## Installation
