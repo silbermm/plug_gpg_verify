@@ -1,4 +1,4 @@
-# plug_gpg_verify
+# Plug GPG Verify
 
 A plug that can be used to verify the ownership of public gpg keys.
 
@@ -25,7 +25,11 @@ This plug makes use of a gpg library that requires:
 * gpg to be installed and configured properly
 
 ## Usage
+* Implement the `PlugGpgVerify` behaviour
+* Choose a route that you want to use for verification
+* add `forward "/", PlugGPGVerify, adapter: MyProject.GPGVerificationPlug` to your router
 
+See [hexdocs]() for complete documentation
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
