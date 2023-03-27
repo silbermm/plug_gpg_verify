@@ -31,9 +31,11 @@ defmodule Mix.Tasks.GpgVerify do
         user_id = Map.get(body, "user_id")
         response = sign_and_send(user_id, challenge, url)
         IO.puts(inspect(response.body))
+        response.body
 
       _ ->
         IO.puts("Invalid Request")
+        %{}
     end
   end
 

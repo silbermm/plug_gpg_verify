@@ -4,7 +4,7 @@ defmodule PlugGpgVerify.MixProject do
   def project do
     [
       app: :plug_gpg_verify,
-      version: "0.1.0",
+      version: "0.1.1",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
