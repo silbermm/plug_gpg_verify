@@ -29,8 +29,4 @@ This plug makes use of a gpg library that requires:
 * Choose a route that you want to use for verification
 * add `forward "/", PlugGPGVerify, adapter: MyProject.GPGVerificationPlug` to your router
 
-See [hexdocs]() for complete documentation
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/plug_gpg_verify>.
+[Documentation](https://hexdocs.pm/plug_gpg_verify/PlugGPGVerify.html)
